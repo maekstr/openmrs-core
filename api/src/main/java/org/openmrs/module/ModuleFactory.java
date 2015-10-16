@@ -1117,9 +1117,11 @@ public class ModuleFactory {
 			startedModulesCopy.addAll(getStartedModules());
 			for (Module dependentModule : startedModulesCopy) {
 				if (dependentModule != null && !dependentModule.equals(mod)) {
-					if (dependentModule.getRequiredModules() != null && dependentModule.getRequiredModules().contains(modulePackage)) {
+					if (dependentModule.getRequiredModules() != null
+					        && dependentModule.getRequiredModules().contains(modulePackage)) {
 						dependentModulesStopped.add(dependentModule);
-						dependentModulesStopped.addAll(stopModule(dependentModule, skipOverStartedProperty, isFailedStartup));
+						dependentModulesStopped
+						        .addAll(stopModule(dependentModule, skipOverStartedProperty, isFailedStartup));
 					}
 				}
 			}

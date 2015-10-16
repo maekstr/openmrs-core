@@ -735,7 +735,7 @@ public class DbSession {
 	 * @param lockMode the lock level
 	 * @deprecated instead call buildLockRequest(LockMode).lock(entityName, object)
 	 */
-	@SuppressWarnings({ "JavaDoc" })
+	@SuppressWarnings( { "JavaDoc" })
 	@Deprecated
 	public void lock(String entityName, Object object, LockMode lockMode) {
 		getSession().lock(entityName, object, lockMode);

@@ -40,7 +40,7 @@ import org.springframework.validation.Validator;
  * @since 1.5
  */
 public class ValidateUtil {
-
+	
 	/**
 	 * This is set in {@link Context#checkCoreDataset()} class
 	 */
@@ -68,7 +68,7 @@ public class ValidateUtil {
 		if (disableValidation) {
 			return;
 		}
-
+		
 		Errors errors = new BindException(obj, "");
 		
 		Context.getAdministrationService().validate(obj, errors);
@@ -104,7 +104,7 @@ public class ValidateUtil {
 		if (disableValidation) {
 			return;
 		}
-
+		
 		Context.getAdministrationService().validate(obj, errors);
 	}
 	
@@ -123,7 +123,7 @@ public class ValidateUtil {
 		if (disableValidation) {
 			return;
 		}
-
+		
 		Assert.notNull(errors, "Errors object must not be null");
 		for (String field : fields) {
 			Object value = errors.getFieldValue(field);
@@ -139,13 +139,13 @@ public class ValidateUtil {
 			}
 		}
 	}
-
+	
 	public static Boolean getDisableValidation() {
 		return disableValidation;
 	}
-
+	
 	public static void setDisableValidation(Boolean disableValidation) {
 		ValidateUtil.disableValidation = disableValidation;
 	}
-
+	
 }

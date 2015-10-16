@@ -887,14 +887,11 @@ public class EncounterServiceTest extends BaseContextSensitiveTest {
 	@Verifies(value = "should get encounters modified after specified date", method = "getEncounters(EncounterSearchParameter)")
 	public void getEncounters_shouldGetEncountersModifiedAfterSpecifiedDate() throws Exception {
 		EncounterService encounterService = Context.getEncounterService();
-		Assert.assertEquals(7, encounterService.getEncounters(
-				encounterSearchForVoidedWithDateChanged("2006-01-01")).size());
-		Assert.assertEquals(5, encounterService.getEncounters(
-				encounterSearchForVoidedWithDateChanged("2008-06-01")).size());
-		Assert.assertEquals(1, encounterService.getEncounters(
-				encounterSearchForVoidedWithDateChanged("2010-01-01")).size());
+		Assert.assertEquals(7, encounterService.getEncounters(encounterSearchForVoidedWithDateChanged("2006-01-01")).size());
+		Assert.assertEquals(5, encounterService.getEncounters(encounterSearchForVoidedWithDateChanged("2008-06-01")).size());
+		Assert.assertEquals(1, encounterService.getEncounters(encounterSearchForVoidedWithDateChanged("2010-01-01")).size());
 	}
-
+	
 	/**
 	 * @see EncounterService#getEncounters(Patient, Location, Date, Date, java.util.Collection, java.util.Collection, java.util.Collection, boolean)
 	 */
@@ -1029,29 +1026,29 @@ public class EncounterServiceTest extends BaseContextSensitiveTest {
 	@Verifies(value = "should set audit info if any item in EncounterType is Edited", method = "saveEncounterType(EncounterType)")
 	public void saveEncounterType_shouldSetAuditInfoIfAnyItemInEncounterTypeIsEdited() throws Exception {
 		EncounterService es = Context.getEncounterService();
-
+		
 		// Create encounter type, ensure creator/dateCreated are set, and changedBy and dateChanged are not setDateCreated.
 		EncounterType encounterType = es.saveEncounterType(new EncounterType("testing", "desc"));
 		User creator = encounterType.getCreator();
 		Date dateCreated = encounterType.getDateCreated();
-
+		
 		assertNotNull("creator should be set after saving", creator);
 		assertNotNull("date creates should be set after saving", dateCreated);
 		assertNull("changed by should not be set after creation", encounterType.getChangedBy());
 		assertNull("date changed should not be set after creation", encounterType.getDateChanged());
-
+		
 		// Edit encounter type.
 		encounterType.setDescription("This has been a test!");
 		EncounterType editedEt = es.saveEncounterType(encounterType);
 		Context.flushSession();
-
+		
 		// Ensure creator/dateCreated remain unchanged, and changedBy and dateChanged are set.
 		assertTrue("creator should not change during edit", creator.equals(editedEt.getCreator()));
 		assertTrue("date created should not changed during edit", dateCreated.equals(editedEt.getDateCreated()));
 		assertNotNull("changed by should be set after edit", editedEt.getChangedBy());
 		assertNotNull("date changed should be set after edit", editedEt.getDateChanged());
 	}
-
+	
 	/**
 	 * @see EncounterService#getEncounterType(String)
 	 */
@@ -1581,7 +1578,7 @@ public class EncounterServiceTest extends BaseContextSensitiveTest {
 		assertNotNull("We should get back an encounter role", newSavedEncounterRole);
 		assertEquals(encounterRole, newSavedEncounterRole);
 		assertTrue("The created encounter role needs to equal the pojo encounter role", encounterRole
-				.equals(newSavedEncounterRole));
+		        .equals(newSavedEncounterRole));
 		
 	}
 	
@@ -2801,15 +2798,13 @@ public class EncounterServiceTest extends BaseContextSensitiveTest {
 		Visit visit = Context.getVisitService().getVisit(200);
 		Assert.assertTrue(visit.isVoided());
 	}
-
+	
 	private EncounterSearchCriteria encounterSearchForVoidedWithDateChanged(String dateChanged) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return new EncounterSearchCriteriaBuilder()
-				.setIncludeVoided(true)
-				.setDateChanged(sdf.parse(dateChanged))
-				.createEncounterSearchCriteria();
+		return new EncounterSearchCriteriaBuilder().setIncludeVoided(true).setDateChanged(sdf.parse(dateChanged))
+		        .createEncounterSearchCriteria();
 	}
-
+	
 	private Person newPerson(String name) {
 		Person person = new Person();
 		Set<PersonName> personNames = new TreeSet<PersonName>();

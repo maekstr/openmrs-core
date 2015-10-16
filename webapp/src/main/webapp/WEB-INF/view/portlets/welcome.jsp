@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <openmrs:globalProperty var="applicationName" key="application.name" defaultValue="OpenMRS"/>
+<h1> test test</h1>
+
 <c:choose>
 	<c:when test="${model.authenticatedUser != null}">
 		<c:choose>

@@ -287,15 +287,9 @@ public class EncounterServiceImpl extends BaseOpenmrsService implements Encounte
 	public List<Encounter> getEncounters(Patient who, Location loc, Date fromDate, Date toDate,
 	        Collection<Form> enteredViaForms, Collection<EncounterType> encounterTypes, Collection<User> providers,
 	        boolean includeVoided) {
-		EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder()
-				.setPatient(who)
-				.setLocation(loc)
-				.setFromDate(fromDate)
-				.setToDate(toDate)
-				.setEnteredViaForms(enteredViaForms)
-				.setEncounterTypes(encounterTypes)
-				.setProviders(usersToProviders(providers))
-				.setIncludeVoided(includeVoided);
+		EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder().setPatient(who)
+		        .setLocation(loc).setFromDate(fromDate).setToDate(toDate).setEnteredViaForms(enteredViaForms)
+		        .setEncounterTypes(encounterTypes).setProviders(usersToProviders(providers)).setIncludeVoided(includeVoided);
 		return getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
 	}
 	
@@ -330,18 +324,11 @@ public class EncounterServiceImpl extends BaseOpenmrsService implements Encounte
 	public List<Encounter> getEncounters(Patient who, Location loc, Date fromDate, Date toDate,
 	        Collection<Form> enteredViaForms, Collection<EncounterType> encounterTypes, Collection<Provider> providers,
 	        Collection<VisitType> visitTypes, Collection<Visit> visits, boolean includeVoided) {
-		EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder()
-				.setPatient(who)
-				.setLocation(loc)
-				.setFromDate(fromDate)
-				.setToDate(toDate)
-				.setEnteredViaForms(enteredViaForms)
-				.setEncounterTypes(encounterTypes)
-				.setProviders(providers)
-				.setVisitTypes(visitTypes)
-				.setVisits(visits)
-				.setIncludeVoided(includeVoided);
-
+		EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder().setPatient(who)
+		        .setLocation(loc).setFromDate(fromDate).setToDate(toDate).setEnteredViaForms(enteredViaForms)
+		        .setEncounterTypes(encounterTypes).setProviders(providers).setVisitTypes(visitTypes).setVisits(visits)
+		        .setIncludeVoided(includeVoided);
+		
 		return getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
 	}
 	

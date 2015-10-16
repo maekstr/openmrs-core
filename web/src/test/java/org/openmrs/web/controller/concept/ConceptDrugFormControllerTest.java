@@ -34,8 +34,7 @@ public class ConceptDrugFormControllerTest extends BaseWebContextSensitiveTest {
 	public void onSubmit_shouldPurgeConceptDrug() throws Exception {
 		executeDataSet("org/openmrs/api/include/ConceptServiceTest-drugSearch.xml");
 		ConceptService service = Context.getConceptService();
-		ConceptDrugFormController controller = (ConceptDrugFormController) applicationContext
-		        .getBean("conceptDrugForm");
+		ConceptDrugFormController controller = (ConceptDrugFormController) applicationContext.getBean("conceptDrugForm");
 		
 		Integer drugId = new Integer(444);
 		Drug drug = service.getDrug(drugId);

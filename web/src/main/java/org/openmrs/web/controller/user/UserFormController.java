@@ -53,10 +53,10 @@ import org.springframework.web.context.request.WebRequest;
 public class UserFormController {
 	
 	protected static final Log log = LogFactory.getLog(UserFormController.class);
-
+	
 	@Autowired
 	private UserValidator userValidator;
-
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Role.class, new RoleEditor());

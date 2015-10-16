@@ -26,10 +26,10 @@ import org.springframework.web.context.request.WebRequest;
  * Tests the {@link oldUserFormController} class.
  */
 public class UserFormControllerTest extends BaseWebContextSensitiveTest {
-
+	
 	@Autowired
 	private UserFormController controller;
-
+	
 	/**
 	 * @see UserFormController#handleSubmission(WebRequest,HttpSession,String,String,String,null,User,BindingResult)
 	 * 

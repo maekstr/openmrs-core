@@ -202,27 +202,29 @@ public class OrderServiceImpl extends BaseOpenmrsService implements OrderService
 		}
 		
 		if (DISCONTINUE != order.getAction()) {
- 			List<Order> activeOrders = getActiveOrders(order.getPatient(), null, order.getCareSetting(), null);
+			List<Order> activeOrders = getActiveOrders(order.getPatient(), null, order.getCareSetting(), null);
 			List<String> parallelOrders = Collections.emptyList();
-			if(orderContext!=null && orderContext.getAttribute(PARALLEL_ORDERS)!=null){
-				parallelOrders= Arrays.asList((String[])orderContext.getAttribute(PARALLEL_ORDERS));
+			if (orderContext != null && orderContext.getAttribute(PARALLEL_ORDERS) != null) {
+				parallelOrders = Arrays.asList((String[]) orderContext.getAttribute(PARALLEL_ORDERS));
 			}
- 			for (Order activeOrder : activeOrders) {
- 				//Reject if there is an active drug order for the same orderable with overlapping schedule
-				if (!parallelOrders.contains(activeOrder.getUuid()) && areDrugOrdersOfSameOrderableAndOverlappingSchedule(order, activeOrder)) {
+			for (Order activeOrder : activeOrders) {
+				//Reject if there is an active drug order for the same orderable with overlapping schedule
+				if (!parallelOrders.contains(activeOrder.getUuid())
+				        && areDrugOrdersOfSameOrderableAndOverlappingSchedule(order, activeOrder)) {
 					throw new AmbiguousOrderException("Order.cannot.have.more.than.one");
- 				}
- 			}
- 		}
+				}
+			}
+		}
 		
 		return saveOrderInternal(order, orderContext);
 	}
 	
 	private boolean areDrugOrdersOfSameOrderableAndOverlappingSchedule(Order firstOrder, Order secondOrder) {
 		return firstOrder.hasSameOrderableAs(secondOrder)
-				&& !OpenmrsUtil.nullSafeEquals(firstOrder.getPreviousOrder(), secondOrder)
-				&& OrderUtil.checkScheduleOverlap(firstOrder, secondOrder)
-				&& firstOrder.getOrderType().equals(Context.getOrderService().getOrderTypeByUuid(OrderType.DRUG_ORDER_TYPE_UUID));
+		        && !OpenmrsUtil.nullSafeEquals(firstOrder.getPreviousOrder(), secondOrder)
+		        && OrderUtil.checkScheduleOverlap(firstOrder, secondOrder)
+		        && firstOrder.getOrderType().equals(
+		            Context.getOrderService().getOrderTypeByUuid(OrderType.DRUG_ORDER_TYPE_UUID));
 	}
 	
 	/**

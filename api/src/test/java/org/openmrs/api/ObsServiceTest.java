@@ -1724,32 +1724,32 @@ public class ObsServiceTest extends BaseContextSensitiveTest {
 		
 		assertEquals(obs.getPerson(), obsSaved.getEncounter().getPatient());
 	}
-
+	
 	/**
 	 * @see ObsService#purgeObs(Obs,boolean)
 	 */
 	@Test
 	@Verifies(value = "should delete any obsGroupMembers before deleting the obs", method = "purgeObs(Obs,boolean)")
 	public void purgeObs_shouldDeleteAnyObsGroupMembersBeforeDeletingTheObs() throws Exception {
-
+		
 		executeDataSet(INITIAL_OBS_XML);
 		ObsService obsService = Context.getObsService();
-
+		
 		final int parentObsId = 1;
 		Obs obs = obsService.getObs(parentObsId);
-
+		
 		final int childObsId = 2;
 		final int unrelatedObsId = 3;
 		final int orderReferencingObsId = 4;
 		Obs unrelatedObservation = obsService.getObs(unrelatedObsId);
 		obs.addGroupMember(obsService.getObs(childObsId));
 		obs.addGroupMember(obsService.getObs(orderReferencingObsId));
-
+		
 		final int conceptProposalObsId = 5;
 		ConceptProposal conceptProposal = new ConceptProposal();
 		conceptProposal.setObs(obsService.getObs(conceptProposalObsId));
 		obs.addGroupMember(conceptProposal.getObs());
-
+		
 		final int allergyStartObsId = 6;
 		final int allergyStopObsId = 7;
 		Allergy allergy = new Allergy();
@@ -1757,7 +1757,7 @@ public class ObsServiceTest extends BaseContextSensitiveTest {
 		allergy.setStopObs(obsService.getObs(allergyStopObsId));
 		obs.addGroupMember(allergy.getStartObs());
 		obs.addGroupMember(allergy.getStopObs());
-
+		
 		final int problemStartObsId = 8;
 		final int problemStopObsId = 9;
 		Problem problem = new Problem();
@@ -1765,7 +1765,7 @@ public class ObsServiceTest extends BaseContextSensitiveTest {
 		problem.setStopObs(obsService.getObs(problemStopObsId));
 		obs.addGroupMember(problem.getStartObs());
 		obs.addGroupMember(problem.getStopObs());
-
+		
 		//before calling purgeObs method the Obs exists
 		Assert.assertNotNull(obsService.getObs(parentObsId));
 		Assert.assertNotNull(obsService.getObs(childObsId));
@@ -1776,9 +1776,9 @@ public class ObsServiceTest extends BaseContextSensitiveTest {
 		Assert.assertNotNull(obsService.getObs(allergyStopObsId));
 		Assert.assertNotNull(obsService.getObs(problemStartObsId));
 		Assert.assertNotNull(obsService.getObs(problemStopObsId));
-
+		
 		Context.getObsService().purgeObs(obs, false);
-
+		
 		//	After calling purgeObs method Obs are deleted
 		Assert.assertNull(obsService.getObs(parentObsId));
 		Assert.assertNull(obsService.getObs(childObsId));
@@ -1790,26 +1790,26 @@ public class ObsServiceTest extends BaseContextSensitiveTest {
 		Assert.assertNull(obsService.getObs(problemStartObsId));
 		Assert.assertNull(obsService.getObs(problemStopObsId));
 	}
-
+	
 	/**
 	 * @see ObsService#purgeObs(Obs,boolean)
 	 */
 	@Test
 	@Verifies(value = "should not delete referenced orders when purging obs", method = "purgeObs(Obs,boolean)")
 	public void purgeObs_shouldNotDeleteReferencedOrdersWhenPurgingObs() throws Exception {
-
+		
 		executeDataSet(INITIAL_OBS_XML);
 		ObsService obsService = Context.getObsService();
 		final OrderService orderService = Context.getOrderService();
-
+		
 		final int orderReferencingObsId = 4;
 		final Obs obs = obsService.getObs(orderReferencingObsId);
-
+		
 		final Order order = obs.getOrder();
 		final Integer referencedOrderId = order.getOrderId();
-
+		
 		Context.getObsService().purgeObs(obs, false);
-
+		
 		Assert.assertNull(obsService.getObs(orderReferencingObsId));
 		Assert.assertNotNull(orderService.getOrder(referencedOrderId));
 	}
