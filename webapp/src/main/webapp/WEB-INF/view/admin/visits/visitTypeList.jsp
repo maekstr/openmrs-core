@@ -5,18 +5,29 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 <%@ include file="localHeader.jsp" %>
 
-<h2><openmrs:message code="VisitType.manage.title"/></h2>
+<h2>
+<openmrs:message code="VisitType.manage.title"/>
+</h2>
 
-<a href="visitType.form"><openmrs:message code="VisitType.add"/></a>
+<a href="visitType.form">
+<openmrs:message code="VisitType.add"/>
+</a>
 
-<br /><br />
+<br />
+<br />
 
-<b class="boxHeader"><openmrs:message code="VisitType.list.title"/></b>
+<b class="boxHeader">
+<openmrs:message code="VisitType.list.title"/>
+</b>
 <form method="post" class="box">
 	<table>
 		<tr>
-			<th> <openmrs:message code="general.name"/> </th>
-			<th> <openmrs:message code="general.description"/> </th>
+			<th> 
+			<openmrs:message code="general.name"/> 
+			</th>
+			<th> 
+			<openmrs:message code="general.description"/> 
+			</th>
 		</tr>
 		<c:forEach var="visitType" items="${visitTypeList}">
 			<tr>
@@ -24,7 +35,9 @@
 					<a href="visitType.form?visitTypeId=${visitType.visitTypeId}">
 						<c:choose>
 							<c:when test="${visitType.retired == true}">
-								<del>${visitType.name}</del>
+								<del>
+								${visitType.name}
+								</del>
 							</c:when>
 							<c:otherwise>
 								${visitType.name}
@@ -32,7 +45,9 @@
 						</c:choose>
 					</a>
 				</td>
-				<td valign="top">${visitType.description}</td>
+				<td valign="top">
+				${visitType.description}
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

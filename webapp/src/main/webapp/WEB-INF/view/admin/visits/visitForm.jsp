@@ -109,8 +109,12 @@ $j(document).ready( function() {
 
 <h2>
 	<c:choose>
-		<c:when test="${visit.visitId == null}"><openmrs:message code="Visit.add"/></c:when>
-		<c:otherwise><openmrs:message code="Visit.edit"/></c:otherwise>
+		<c:when test="${visit.visitId == null}">
+		<openmrs:message code="Visit.add"/>
+		</c:when>
+		<c:otherwise>
+		<openmrs:message code="Visit.edit"/>
+		</c:otherwise>
 	</c:choose>
 </h2>
 
@@ -121,9 +125,17 @@ $j(document).ready( function() {
 		<div class="voidedMessage">
 			<div>
 				<openmrs:message code="Visit.voidedMessage"/>
-				<c:if test="${visit.voidedBy.personName != null}"> <openmrs:message code="general.byPerson"/> <openmrs:format user="${visit.voidedBy}"/></c:if>
-				<c:if test="${visit.dateVoided != null}"> <openmrs:message code="general.onDate"/> <openmrs:formatDate date="${visit.dateVoided}" type="long" /></c:if>
-				<c:if test="${visit.voidReason!=''}"> - ${visit.voidReason}</c:if>
+				<c:if test="${visit.voidedBy.personName != null}"> 
+				<openmrs:message code="general.byPerson"/> 
+				<openmrs:format user="${visit.voidedBy}"/>
+				</c:if>
+				<c:if test="${visit.dateVoided != null}"> 
+				<openmrs:message code="general.onDate"/> 
+				<openmrs:formatDate date="${visit.dateVoided}" type="long" />
+				</c:if>
+				<c:if test="${visit.voidReason!=''}">
+				 - ${visit.voidReason}
+				</c:if>
 			 	<input type="submit" value='<openmrs:message code="general.restore" />' />
 			</div>
 		</div>
@@ -174,22 +186,43 @@ $j(document).ready( function() {
 	<table class="left-aligned-th" cellpadding="3" cellspacing="3">
 		<tr>
 			<th>
-				<openmrs:message code="general.patient"/><c:if test="${visit.visitId == null}"><span class="required"> *</span></c:if>
+				<openmrs:message code="general.patient"/>
+				<c:if test="${visit.visitId == null}">
+				<span class="required">
+				 *
+				</span></c:if>
 			</th>
 			<td>
 				<c:choose>
 					<c:when test="${visit.visitId == null}">
 					<spring:bind path="patient">
+						<c:choose>
+						<c:when test="${param.patientId != null }">
+						<openmrs_tag:patientField formFieldName="${status.expression}" initialValue="${param.patientId}" />
+						</c:when>
+						<c:otherwise>
 						<openmrs_tag:patientField formFieldName="${status.expression}" initialValue="${status.value}" />
-						<c:if test="${status.errorMessage != ''}"><span class="error">${status.errorMessage}</span></c:if>
+						</c:otherwise>
+						</c:choose>
+						<c:if test="${status.errorMessage != ''}">
+						<span class="error">
+						${status.errorMessage}
+						</span>
+						</c:if>
 					</spring:bind>
 					</c:when>
-					<c:otherwise><c:out value="${visit.patient.personName}" /></c:otherwise>
+					<c:otherwise>
+					<c:out value="${visit.patient.personName}" />
+					</c:otherwise>
 				</c:choose>
 			</td>
 		</tr>
 		<tr>
-			<th><openmrs:message code="Visit.visitType"/><span class="required"> *</span></th>
+			<th>
+			<openmrs:message code="Visit.visitType"/>
+			<span class="required">
+			 *
+			</span></th>
 			<td>
 			<spring:bind path="visitType">
 			<c:set var="groupOpen" value="false" />
@@ -200,58 +233,99 @@ $j(document).ready( function() {
 					<optgroup label="<openmrs:message code="Visit.type.retired"/>">
 					<c:set var="groupOpen" value="true" />
 				</c:if>
-					<option value="${visitType.visitTypeId}" <c:if test="${visitType.visitTypeId == status.value}">selected="selected"</c:if>>
+					<option value="${visitType.visitTypeId}" <c:if test="${visitType.visitTypeId == status.value || visitType.description.contains('-DEFAULT-')}">selected="selected"</c:if>>
 						${visitType.name}
 					</option>
+				<c:if test="${true == false }">
+					<option value="${visitType.visitTypeId}" <c:if test="${visitType.name == 'Hospitalization' }">selected="selected"</c:if>>
+						${visitType.name}
+					</option>
+				</c:if>
 				</c:forEach>
 				<c:if test="${groupOpen}">
 					</optgroup>
 					</c:if>
 				</select>
-			<c:if test="${status.errorMessage != ''}"><span class="error">${status.errorMessage}</span></c:if>
+			<c:if test="${status.errorMessage != ''}">
+				<span class="error">
+					${status.errorMessage}
+				</span>
+			</c:if>
 			</spring:bind>
 			</td>
 		</tr>
 		<tr>
-			<th><openmrs:message code="Visit.startDatetime"/><span class="required"> *</span></th>
+			<th>
+			<openmrs:message code="Visit.startDatetime"/>
+			<span class="required">
+			 *
+			</span>
+			</th>
 			<td>
+				
 				<spring:bind path="startDatetime">
-				<input type="text" name="${status.expression}" size="20" value="${status.value}" onClick="showDateTimePicker(this)" />
-				<c:if test="${status.errorMessage != ''}"><span class="error">${status.errorMessage}</span></c:if>
+				<input type="text" name="${status.expression}" size="20" value="${status.value}" />
+				<c:if test="${status.errorMessage != ''}">
+					<span class="error">${status.errorMessage}</span>
+				</c:if>
 				</spring:bind>
+				<span style="font-size:10px; font-style:italic; color:gray">
+					<openmrs:message code="Visit.datetimeFormat"/>
+				</span>
 			</td>
+			
 		</tr>
 		<tr>
-			<th><openmrs:message code="Visit.stopDatetime"/></th>
+			<th>
+			<openmrs:message code="Visit.stopDatetime"/>
+			</th>
 			<td>
 				<spring:bind path="stopDatetime">
-				<input type="text" name="${status.expression}" size="20" value="${status.value}" onClick="showDateTimePicker(this)" />
-				<c:if test="${status.errorMessage != ''}"><span class="error">${status.errorMessage}</span></c:if>
+				<input type="text" name="${status.expression}" size="20" value="${status.value}" />
+				<c:if test="${status.errorMessage != ''}">
+				<span class="error">${status.errorMessage}</span>
+				</c:if>
 				</spring:bind>
+				<span style="font-size:10px; font-style:italic; color:gray">
+					<openmrs:message code="Visit.datetimeFormat"/>
+				</span>
 			</td>
 		</tr>
 		<tr>
-			<th><openmrs:message code="Visit.location"/></th>
+			<th>
+			<openmrs:message code="Visit.location"/>
+			</th>
 			<td>
 				<spring:bind path="location">
 				<openmrs_tag:locationField formFieldName="${status.expression}" initialValue="${status.value}"/>
-				<c:if test="${status.errorMessage != ''}"><span class="error">${status.errorMessage}</span></c:if>
+				<c:if test="${status.errorMessage != ''}">
+				<span class="error">
+				${status.errorMessage}
+				</span>
+				</c:if>
 				</spring:bind>
 			</td>
 		</tr>
 		<tr>
-			<th><openmrs:message code="Visit.indication"/></th>
+			<th>
+			<openmrs:message code="Visit.indication"/>
+			</th>
 			<td>
 				<spring:bind path="indication">
 				<openmrs_tag:conceptField formFieldName="${status.expression}" formFieldId="conceptId" initialValue="${status.value}" />
-				<c:if test="${status.errorMessage != ''}"><span class="error">${status.errorMessage}</span></c:if>
+				<c:if test="${status.errorMessage != ''}">
+				<span class="error">
+				${status.errorMessage}
+				</span>
+				</c:if>
 				</spring:bind>
 			</td>
 		</tr>
 		<spring:bind path="activeAttributes">
 			<c:if test="${status.error}">
 				<tr>
-					<th></th>
+					<th>
+					</th>
 					<td>
 						<span class="error">
 							<c:forEach var="err" items="${status.errorMessages}">
@@ -268,17 +342,24 @@ $j(document).ready( function() {
 		<c:if test="${visit.visitId != null}">
 		<c:if test="${visit.creator != null}">
 		<tr>
-			<th><openmrs:message code="general.createdBy" /></th>
+			<th>
+			<openmrs:message code="general.createdBy" />
+			</th>
 			<td>
-				<c:out value="${visit.creator.personName}" /> - <openmrs:formatDate date="${visit.dateCreated}" type="long" />
+				<c:out value="${visit.creator.personName}" />
+				 - 
+				 <openmrs:formatDate date="${visit.dateCreated}" type="long" />
 			</td>
 		</tr>
 		</c:if>
 		<c:if test="${visit.changedBy != null}">
 		<tr>
-			<th><openmrs:message code="general.changedBy" /></th>
+			<th><openmrs:message code="general.changedBy" />
+			</th>
 			<td>
-				<c:out value="${visit.changedBy.personName}" /> - <openmrs:formatDate date="${visit.dateChanged}" type="long" />
+				<c:out value="${visit.changedBy.personName}" />
+				 - 
+				 <openmrs:formatDate date="${visit.dateChanged}" type="long" />
 			</td>
 		</tr>
 		</c:if>
@@ -288,22 +369,41 @@ $j(document).ready( function() {
 
 <br/>
 
-<b class="boxHeader"><openmrs:message code="Visit.encounters"/></b>
+<b class="boxHeader">
+<openmrs:message code="Visit.encounters"/>
+</b>
 <div class="box">
 	<table id="encountersTable" cellpadding="3" cellspacing="3">
 		<tr>
-			<th><openmrs:message code="Encounter.datetime"/></th>
-			<th><openmrs:message code="Encounter.type"/></th>
-			<th><openmrs:message code="Encounter.location"/></th>
-			<th><openmrs:message code="Encounter.provider"/></th>
-			<th></th>
+			<th>
+			<openmrs:message code="Encounter.datetime"/>
+			</th>
+			<th>
+			<openmrs:message code="Encounter.type"/>
+			</th>
+			<th>
+			<openmrs:message code="Encounter.location"/>
+			</th>
+			<th>
+			<openmrs:message code="Encounter.provider"/>
+			</th>
+			<th>
+			</th>
 		</tr>
 		<c:forEach items="${visitEncounters}" var="enc" varStatus="encStatus">
 		<tr id="encounter-${enc.encounterId}" style='background-color: whitesmoke'>
-			<td><openmrs:formatDate date="${enc.encounterDatetime}" type="small" /></td>
-			<td><openmrs:format encounterType="${enc.encounterType}" /></td>
-			<td><openmrs:format location="${enc.location}" /></td>
-			<td><openmrs:format person="${enc.provider}" /></td>
+			<td>
+			<openmrs:formatDate date="${enc.encounterDatetime}" type="small" />
+			</td>
+			<td>
+			<openmrs:format encounterType="${enc.encounterType}" />
+			</td>
+			<td>
+			<openmrs:format location="${enc.location}" />
+			</td>
+			<td>
+			<openmrs:format person="${enc.provider}" />
+			</td>
 			<td class="removeButtonColumn">
 				<input type="button" value='<openmrs:message code="general.remove"/>' class="smallButton" onclick="removeEncounter(this)" />
 				<input type="hidden" name="encounterIds" value="${enc.encounterId}" />
@@ -326,8 +426,10 @@ $j(document).ready( function() {
 
 <br/>
 
-<input type="submit" value='<openmrs:message code="general.save" />' /></td>
-<c:set var="cancelUrl" value="${pageContext.request.contextPath}/admin" scope="page"></c:set>
+<input type="submit" value='<openmrs:message code="general.save" />' />
+</td>
+<c:set var="cancelUrl" value="${pageContext.request.contextPath}/admin" scope="page">
+</c:set>
 <c:if test="${not empty param.patientId}">
 	<c:set var="cancelUrl" value="${pageContext.request.contextPath}/patientDashboard.form?patientId=${param.patientId}" />
 </c:if>
@@ -340,15 +442,20 @@ $j(document).ready( function() {
 		<form action="voidVisit.htm" method="post">
 			<input type="hidden" name="visitId" value="${visit.visitId}"/>
 			<input type="hidden" name="patientId" value="<c:out value="${visit.patient.patientId}" />"/>
-			<p><openmrs:message code="Visit.delete.info" arguments="${encounterCount}, ${observationCount}"/></p>
+			<p>
+			<openmrs:message code="Visit.delete.info" arguments="${encounterCount}, ${observationCount}"/>
+			</p>
 			<table cellpadding="3" cellspacing="3" align="center">
 				<tr>
-					<th><openmrs:message code="Visit.optionalReason"/></th>
+					<th>
+					<openmrs:message code="Visit.optionalReason"/>
+					</th>
 					<td>
 						<input type="text" name="voidReason" size="40" />
 					</td>
 				</tr>
-				<tr height="20"></tr>
+				<tr height="20">
+				</tr>
 				<tr>
 					<td colspan="2" style="text-align: center">
 						<input type="submit" value="<openmrs:message code="general.void"/>" />
@@ -395,7 +502,8 @@ $j(document).ready( function() {
 					<input type="text" id="enddate_visit" size="20" name="stopDate" value="<openmrs:formatDate date="${now}" format="dd/MM/yyyy HH:mm"/>" onClick="showDateTimePicker(this)" readonly="readonly"/></br>&nbsp;&nbsp;
 				</td>
 			</tr>
-			<tr height="20"></tr>
+			<tr height="20">
+			</tr>
 			<tr>
 				<td colspan="2" style="text-align: center">
 					<input type="submit" value="<openmrs:message code="Visit.end"/>" />

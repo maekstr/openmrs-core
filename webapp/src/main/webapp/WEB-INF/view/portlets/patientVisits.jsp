@@ -233,13 +233,15 @@ tr.bottom-encounter-in-visit td:last-child {
 			<span class="error">
 				<openmrs:message code="EncounterType.privilege.disclaimer"/>
 			</span>
-			<br/><br/>
+			<br/>
+			<br/>
 		</c:if>
 		<openmrs:hasPrivilege privilege="View Visits, View Encounters">
 			<openmrs:hasPrivilege privilege="Add Visits">
 				&nbsp;<a
-					href="<openmrs:contextPath />/admin/visits/visit.form?patientId=<c:out value="${model.patient.patientId}" />"><openmrs:message
-						code="Visit.add" /></a>
+					href="<openmrs:contextPath />/admin/visits/visit.form?patientId=<c:out value="${model.patient.patientId}" />&startNow=true"><openmrs:message
+						code="Visit.add" />
+						</a>
 				<br />
 				<br />
 			</openmrs:hasPrivilege>
@@ -247,28 +249,51 @@ tr.bottom-encounter-in-visit td:last-child {
 				<table id="patientVisitsTable" style="border-spacing: 0px;">
 					<thead>
 						<tr>
-							<th class="visitIdHeader"></th>
-							<th class="visitActiveHeader"></th>
-							<th class="visitTypeHeader"><openmrs:message code="Visit" /></th>
-							<th class="visitLocationHeader"></th>
-							<th class="visitFromHeader"></th>
-							<th class="visitToHeader"></th>
-							<th class="visitIndicationHeader"></th>
-							<th class="encounterFirstHeader"></th>
-							<th class="encounterLastHeader"></th>
-							<th class="encounterIdHeader"><openmrs:message
-									code="general.view" /></th>
-							<th class="encounterDateHeader"><openmrs:message
-									code="Encounter.datetime" /></th>
-							<th class="encounterTypeHeader"><openmrs:message
-									code="Encounter.type" /></th>
-							<th class="encounterProvidersHeader"><openmrs:message
-									code="Encounter.providers" /></th>
-							<th class="encounterLocationHeader"><openmrs:message
-									code="Encounter.location" /></th>
-							<th class="encounterEntererHeader"><openmrs:message
-									code="Encounter.enterer" /></th>
-							<th class="encounterViewURLHeader"></th>
+							<th class="visitIdHeader">
+							</th>
+							<th class="visitActiveHeader">
+							</th>
+							<th class="visitTypeHeader">
+							<openmrs:message code="Visit" />
+							</th>
+							<th class="visitLocationHeader">
+							</th>
+							<th class="visitFromHeader">
+							</th>
+							<th class="visitToHeader">
+							</th>
+							<th class="visitIndicationHeader">
+							</th>
+							<th class="encounterFirstHeader">
+							</th>
+							<th class="encounterLastHeader">
+							</th>
+							<th class="encounterIdHeader">
+							<openmrs:message
+									code="general.view" />
+									</th>
+							<th class="encounterDateHeader">
+							<openmrs:message
+									code="Encounter.datetime" />
+									</th>
+							<th class="encounterTypeHeader">
+							<openmrs:message
+									code="Encounter.type" />
+									</th>
+							<th class="encounterProvidersHeader">
+							<openmrs:message
+									code="Encounter.providers" />
+									</th>
+							<th class="encounterLocationHeader">
+							<openmrs:message
+									code="Encounter.location" />
+									</th>
+							<th class="encounterEntererHeader">
+							<openmrs:message
+									code="Encounter.enterer" />
+									</th>
+							<th class="encounterViewURLHeader">
+							</th>
 						</tr>
 					</thead>
 					<tbody>

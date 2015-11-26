@@ -10,96 +10,146 @@
 		<div>
 			<openmrs:message code="Patient.patientExitedCare"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<openmrs:message code="Patient.patientCareExitDate"/>: <openmrs:formatDate date="${model.patientReasonForExit.obsDatetime}"/>
+			<openmrs:message code="Patient.patientCareExitDate"/>
+			: 
+			<openmrs:formatDate date="${model.patientReasonForExit.obsDatetime}"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<openmrs:message code="Patient.patientCareExitReason"/>: <openmrs:format concept="${model.patientReasonForExit.valueCoded}"/>
+			<openmrs:message code="Patient.patientCareExitReason"/>
+			: 
+			<openmrs:format concept="${model.patientReasonForExit.valueCoded}"/>
 		</div>
 	</div>
 </c:if>
 
 <%-- Header showing preferred name, id, and treatment status --%>
 <div id="patientHeader" class="boxHeader${model.patientVariation}">
-<div id="patientHeaderPatientName"><c:out value="${model.patient.personName}" /></div>
+<div id="patientHeaderPatientName"><c:out value="${model.patient.personName}" />
+</div>
 <div id="patientHeaderPreferredIdentifier">
 	<c:if test="${fn:length(model.patient.activeIdentifiers) > 0}">
 		<c:forEach var="identifier" items="${model.patient.activeIdentifiers}"
 			begin="0" end="0">
-			<span class="patientHeaderPatientIdentifier"><span
-				id="patientHeaderPatientIdentifierType"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
+			<span class="patientHeaderPatientIdentifier">
+			<span
+				id="patientHeaderPatientIdentifierType">
+				<c:out value="${identifier.identifierType.name}" />
+				<openmrs:extensionPoint
 						pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
 						type="html"
 						parameters="identifierLocation=${identifier.location.name}" />:
-			</span> <c:out value="${identifier.identifier}" /></span>
+			</span> 
+			<c:out value="${identifier.identifier}" />
+			</span>
 		</c:forEach>
 	</c:if>
 </div>
 <table id="patientHeaderGeneralInfo">
 	<tr class="patientHeaderGeneralInfoRow">
-		<td id="patientHeaderPatientGender"><c:if
+		<td id="patientHeaderPatientGender">
+		<c:if
 				test="${model.patient.gender == 'M'}">
 				<img src="${pageContext.request.contextPath}/images/male.gif"
 					alt='<openmrs:message code="Person.gender.male"/>'
 					id="maleGenderIcon" />
-			</c:if> <c:if test="${model.patient.gender == 'F'}">
+			</c:if>
+			 <c:if test="${model.patient.gender == 'F'}">
 				<img src="${pageContext.request.contextPath}/images/female.gif"
 					alt='<openmrs:message code="Person.gender.female"/>'
 					id="femaleGenderIcon" />
-			</c:if></td>
+			</c:if>
+			</td>
 		<td id="patientHeaderPatientAge"><openmrs:extensionPoint
 				pointId="org.openmrs.patientDashboard.beforePatientHeaderPatientAge"
-				type="html" parameters="patientId=${model.patient.patientId}" /> <c:if
-				test="${model.patient.age > 0}">${model.patient.age} <openmrs:message
+				type="html" parameters="patientId=${model.patient.patientId}" />
+				 <c:if
+				test="${model.patient.age > 0}">
+				${model.patient.age} 
+				<openmrs:message
 					code="Person.age.years" />
-			</c:if> <c:if test="${model.patient.age == 0}">< 1 <openmrs:message
+			</c:if>
+			 <c:if test="${model.patient.age == 0}">
+			 < 1 <openmrs:message
 					code="Person.age.year" />
-			</c:if> <span id="patientHeaderPatientBirthdate"><c:if
-					test="${not empty model.patient.birthdate}">(<c:if
-						test="${model.patient.birthdateEstimated}">~</c:if>
-					<openmrs:formatDate date="${model.patient.birthdate}" type="medium" />)</c:if>
+			</c:if>
+			 <span id="patientHeaderPatientBirthdate">
+			 <c:if
+					test="${not empty model.patient.birthdate}">
+					(
+					<c:if
+						test="${model.patient.birthdateEstimated}">
+						~
+						</c:if>
+					<openmrs:formatDate date="${model.patient.birthdate}" type="medium" />
+					)
+					</c:if>
 				<c:if test="${empty model.patient.birthdate}">
 					<openmrs:message code="Person.age.unknown" />
-				</c:if></span></td>
+				</c:if>
+				</span></td>
 
 		<%-- Display selected person attributes from the manage person attributes page --%>
 		<openmrs:forEachDisplayAttributeType personType="patient"
 			displayType="header" var="attrType">
-			<td class="patientHeaderPersonAttribute"><openmrs:message
+			<td class="patientHeaderPersonAttribute">
+			<openmrs:message
 					code="PersonAttributeType.${fn:replace(attrType.name, ' ', '')}"
-					text="${attrType.name}" />: <b>${model.patient.attributeMap[attrType.name]}</b>
+					text="${attrType.name}" />
+					: 
+					<b>
+					${model.patient.attributeMap[attrType.name]}
+					</b>
 			</td>
 		</openmrs:forEachDisplayAttributeType>
 
 		<%-- The following is kept for backward compatibility. --%>
-		<td id="patientHeaderPatientTribe"><openmrs:extensionPoint
+		<td id="patientHeaderPatientTribe">
+		<openmrs:extensionPoint
 				pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientTribe"
-				type="html" parameters="patientId=${model.patient.patientId}" /></td>
+				type="html" parameters="patientId=${model.patient.patientId}" />
+				</td>
 		<openmrs:globalProperty key="use_patient_attribute.healthCenter"
 			defaultValue="false" var="showHealthCenter" />
 		<c:if
 			test="${showHealthCenter && not empty model.patient.attributeMap['Health Center']}">
-			<td id="patientHeaderHealthCenter"><openmrs:message
-					code="PersonAttributeType.HealthCenter" />: <b>${model.patient.attributeMap['Health Center']}</b></td>
+			<td id="patientHeaderHealthCenter">
+			<openmrs:message
+					code="PersonAttributeType.HealthCenter" />
+					: 
+					<b>
+					${model.patient.attributeMap['Health Center']}
+					</b>
+					</td>
 		</c:if>
-		<td id="patientDashboardHeaderExtension"><openmrs:extensionPoint
+		<td id="patientDashboardHeaderExtension">
+		<openmrs:extensionPoint
 				pointId="org.openmrs.patientDashboard.Header" type="html"
-				parameters="patientId=${model.patient.patientId}" /></td>
-		<td style="width: 100%;" class="patientHeaderEmptyData">&nbsp;</td>
-		<td id="patientHeaderOtherIdentifiers"><c:if
+				parameters="patientId=${model.patient.patientId}" />
+				</td>
+		<td style="width: 100%;" class="patientHeaderEmptyData">
+		&nbsp;
+		</td>
+		<td id="patientHeaderOtherIdentifiers">
+		<c:if
 				test="${fn:length(model.patient.activeIdentifiers) > 1}">
 				<c:forEach var="identifier"
 					items="${model.patient.activeIdentifiers}" begin="1" end="1">
-					<span class="patientHeaderPatientIdentifier"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
+					<span class="patientHeaderPatientIdentifier">
+					<c:out value="${identifier.identifierType.name}" />
+					<openmrs:extensionPoint
 							pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
 							type="html"
 							parameters="identifierLocation=${identifier.location.name}" />:
 						<c:out value="${identifier.identifier}" />
 					</span>
 				</c:forEach>
-			</c:if> <c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
+			</c:if> 
+			<c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
 				<div id="patientHeaderMoreIdentifiers">
 					<c:forEach var="identifier"
 						items="${model.patient.activeIdentifiers}" begin="2">
-						<span class="patientHeaderPatientIdentifier"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
+						<span class="patientHeaderPatientIdentifier">
+						<c:out value="${identifier.identifierType.name}" />
+						<openmrs:extensionPoint
 								pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
 								type="html"
 								parameters="identifierLocation=${identifier.location.name}" />:
@@ -107,14 +157,20 @@
 						</span>
 					</c:forEach>
 				</div>
-			</c:if></td>
+			</c:if>
+			</td>
 		<c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
-			<td width="32" class="patientHeaderShowMoreIdentifiersData"><small><a
+			<td width="32" class="patientHeaderShowMoreIdentifiersData">
+			<small>
+			<a
 					id="patientHeaderShowMoreIdentifiers"
 					onclick="return showMoreIdentifiers()"
-					title='<openmrs:message code="patientDashboard.showMoreIdentifers"/>'><openmrs:message
+					title='<openmrs:message code="patientDashboard.showMoreIdentifers"/>'>
+					<openmrs:message
 							code="general.nMore"
-							arguments="${fn:length(model.patient.activeIdentifiers) - 2}" /></a></small>
+							arguments="${fn:length(model.patient.activeIdentifiers) - 2}" />
+							</a>
+							</small>
 			</td>
 		</c:if>
 	</tr>
@@ -140,20 +196,35 @@
 			<table class="programEnrollmentTable">
 				<tr>
 					<th class="programEnrollmentNameHeader">${
-						programEnrollment.program.name }</th>
-					<td class="programEnrollmentBarData">|</td>
-					<td class="programEnrollmentName"><openmrs:message
-							code="Program.enrolled" />:</td>
-					<th class="programEnrollmentDateHeader"><openmrs:formatDate
-							date="${programEnrollment.dateEnrolled}" type="medium" /></th>
+						programEnrollment.program.name }
+						</th>
+					<td class="programEnrollmentBarData">
+					|
+					</td>
+					<td class="programEnrollmentName">
+					<openmrs:message
+							code="Program.enrolled" />
+							:
+							</td>
+					<th class="programEnrollmentDateHeader">
+					<openmrs:formatDate
+							date="${programEnrollment.dateEnrolled}" type="medium" />
+							</th>
 					<c:forEach items="${programEnrollment.currentStates}"
 						var="patientState">
 						<c:set var="temp"
 							value=",${patientState.state.programWorkflow.programWorkflowId}," />
 						<c:if test="${ fn:contains(workflowsToShow, temp) }">
-							<td class="programEnrollmentBarData">|</td>
-							<td class="patientStateProgramWorkflowNameData"><c:out value="${patientState.state.programWorkflow.concept.name}" />:</td>
-							<th class="patientStateConceptNameHeader"><c:out value="${patientState.state.concept.name}" /></th>
+							<td class="programEnrollmentBarData">
+							|
+							</td>
+							<td class="patientStateProgramWorkflowNameData">
+							<c:out value="${patientState.state.programWorkflow.concept.name}" />
+							:
+							</td>
+							<th class="patientStateConceptNameHeader">
+							<c:out value="${patientState.state.concept.name}" />
+							</th>
 						</c:if>
 					</c:forEach>
 				</tr>
@@ -168,21 +239,33 @@
 	<openmrs:globalProperty key="dashboard.header.showConcept" var="conceptIds" listSeparator="," />
 
 	<tr class="patientObsRow">
-		<th id="patientHeaderObsWeight"><openmrs:message
-				code="Patient.bmi" />: ${model.patientBmiAsString}</th>
-		<th class="patientHeaderObsWeightHeightHeader"><small> (
-				<openmrs:message code="Patient.weight" />: <openmrs_tag:mostRecentObs
+		<th id="patientHeaderObsWeight">
+		<openmrs:message
+				code="Patient.bmi" />
+				: ${model.patientBmiAsString}
+				</th>
+		<th class="patientHeaderObsWeightHeightHeader">
+		<small> (
+				<openmrs:message code="Patient.weight" />
+				: 
+				<openmrs_tag:mostRecentObs
 					observations="${model.patientObs}" concept="${weightConceptId}"
-					showUnits="true" locale="${model.locale}" showDate="false" /> , <openmrs:message
-					code="Patient.height" />: <openmrs_tag:mostRecentObs
+					showUnits="true" locale="${model.locale}" showDate="false" /> , 
+					<openmrs:message
+					code="Patient.height" />
+					: 
+					<openmrs_tag:mostRecentObs
 					observations="${model.patientObs}" concept="${heightConceptId}"
 					showUnits="true" locale="${model.locale}" showDate="false" /> )
-		</small></th>
+		</small>
+		</th>
 
         <c:forEach items="${conceptIds}" var="conceptId">
             <td class="patientRecentObsConfigured">
                 <openmrs:concept conceptId="${conceptId}" var="c" nameVar="n" numericVar="num" shortestNameVar="sn">
-                    <span title="${n.description}">${sn}:</span>
+                    <span title="${n.description}">
+                    ${sn}:
+                    </span>
                 </openmrs:concept>
                 <openmrs_tag:mostRecentObs
                     observations="${model.patientObs}" concept="${conceptId}"
@@ -190,15 +273,25 @@
             </td>
         </c:forEach>
 
-		<td id="patientHeaderObsRegimen"><openmrs:message
-				code="Patient.regimen" />: <span id="patientHeaderRegimen">
+		<td id="patientHeaderObsRegimen">
+		<openmrs:message
+				code="Patient.regimen" />
+				: 
+				<span id="patientHeaderRegimen">
 				<c:forEach items="${model.currentDrugOrders}" var="drugOrder"
 					varStatus="drugOrderStatus">
-					<c:if test="${!empty drugOrder.drug}"><c:out value="${drugOrder.drug.name}" /></c:if>
-					<c:if test="${empty drugOrder.drug}"><c:out value="${drugOrder.concept.name.name}" /></c:if>
-					<c:if test="${!drugOrderStatus.last}">, </c:if>
+					<c:if test="${!empty drugOrder.drug}">
+					<c:out value="${drugOrder.drug.name}" />
+					</c:if>
+					<c:if test="${empty drugOrder.drug}">
+					<c:out value="${drugOrder.concept.name.name}" />
+					</c:if>
+					<c:if test="${!drugOrderStatus.last}">
+					, 
+					</c:if>
 				</c:forEach>
-		</span></td>
+		</span>
+		</td>
 	</tr>
 </table>
 
@@ -207,16 +300,26 @@
 		<div class="box noBorder">
 			<table class="patientLastEncounterTable">
 				<tr class="patientLastEncounterRow">
-					<td class="patientLastEncounterData"><openmrs:message
-							code="Patient.lastEncounter" />:</td>
-					<th><c:forEach
+					<td class="patientLastEncounterData">
+					<openmrs:message
+							code="Patient.lastEncounter" />
+							:
+							</td>
+					<th>
+					<c:forEach
 							items='${openmrs:sort(model.patientEncounters, "encounterDatetime", true)}'
 							var="lastEncounter" varStatus="lastEncounterStatus" end="0">
-								<c:out value="${lastEncounter.encounterType.name}" /> @ <c:out value="${lastEncounter.location.name}" />, <openmrs:formatDate
+								<c:out value="${lastEncounter.encounterType.name}" />
+								 @ 
+								 <c:out value="${lastEncounter.location.name}" />
+								 , 
+								 <openmrs:formatDate
 								date="${lastEncounter.encounterDatetime}" type="medium" />
-						</c:forEach> <c:if test="${fn:length(model.patientEncounters) == 0}">
+						</c:forEach>
+						 <c:if test="${fn:length(model.patientEncounters) == 0}">
 							<openmrs:message code="Encounter.no.previous" />
-						</c:if></th>
+						</c:if>
+						</th>
 				</tr>
 			</table>
 		</div>
@@ -248,10 +351,13 @@
 							<input type="hidden" name="visitId" value="" />
 							<openmrs:message code="Visit.enterEndDate"/>
 							<jsp:useBean id="now" class="java.util.Date" scope="page" />
-							<input type="text" id="enddate_visit" size="20" name="stopDate" value="<openmrs:formatDate date="${now}" format="dd/MM/yyyy HH:mm"/>" onClick="showDateTimePicker(this)" readonly="readonly"/></br>&nbsp;&nbsp;
+							<input type="text" id="enddate_visit" size="20" name="stopDate" value="<openmrs:formatDate date="${now}" format="dd/MM/yyyy HH:mm"/>" onClick="showDateTimePicker(this)" readonly="readonly"/>
+							</br>
+							&nbsp;&nbsp;
 						</td>
 					</tr>
-					<tr height="20"></tr>
+					<tr height="20">
+					</tr>
 					<tr>
 						<td colspan="2" style="text-align: center">
 							<input type="submit" value="<openmrs:message code="Visit.end"/>" />
@@ -286,12 +392,21 @@
 	
 		<c:forEach var="visit" items="${model.activeVisits}">
 			<div id="patientVisitsSubheader" class="box" style="margin-top: 2px">
-				&nbsp;<strong><openmrs:message code="Visit.active.label" />: <a
+				&nbsp;
+				<strong>
+				<openmrs:message code="Visit.active.label" />
+				: 
+				<a
 					href="<openmrs:contextPath />/admin/visits/visit.form?visitId=${ visit.visitId }&patientId=<c:out value="${model.patient.patientId}" />"><openmrs:format
-							visitType="${ visit.visitType }" /></a></strong>
+							visitType="${ visit.visitType }" />
+							</a>
+							</strong>
 				<c:if test="${ not empty visit.location }">
 					<openmrs:message code="general.atLocation" />
-					<strong><openmrs:format location="${ visit.location }" /></strong></c:if>
+					<strong>
+					<openmrs:format location="${ visit.location }" />
+					</strong>
+					</c:if>
 				<openmrs:message code="general.fromDate" />
 				<openmrs:formatDate date="${ visit.startDatetime }" showTodayOrYesterday="true" />
 				<c:if test="${not empty visit.stopDatetime }">
@@ -305,7 +420,9 @@
 				</openmrs:hasPrivilege>
 				<br />&nbsp;
 				<c:if test="${empty visit.nonVoidedEncounters}">
-					<i><openmrs:message code="Encounter.noEncounters" /></i>
+					<i>
+					<openmrs:message code="Encounter.noEncounters" />
+					</i>
 				</c:if>
 				<c:forEach var="encounter" items="${visit.nonVoidedEncounters}" varStatus="status">
 					<c:set var="viewEncounterUrl" value="${pageContext.request.contextPath}/admin/encounters/encounter.form?encounterId=${encounter.encounterId}"/>
@@ -322,7 +439,11 @@
 						</c:when>
 					</c:choose>
 					<a href="${viewEncounterUrl}">
-						<openmrs:format encounterType="${encounter.encounterType}" /></a><c:if test="${not status.last}">,</c:if>
+						<openmrs:format encounterType="${encounter.encounterType}" />
+						</a>
+						<c:if test="${not status.last}">
+						,
+						</c:if>
 				</c:forEach>
 				
 				<openmrs:hasPrivilege privilege="Add Encounters">
@@ -337,7 +458,11 @@
 									<c:param name="returnUrl" value="${model.returnUrl}"/>
 									<c:param name="visitId" value="${visit.visitId}"/>
 								</c:url>
-								<p><a href="${linkUrl}">${link.label}</a></p>
+								<p>
+								<a href="${linkUrl}">
+								${link.label}
+								</a>
+								</p>
 							</c:forEach>
 							
 						</div>
